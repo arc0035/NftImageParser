@@ -14,7 +14,7 @@ func main() {
 		"bayc",
 	)
 
-	baycParser.DownloadImages("./nfts", 1, 200, 100)
+	baycParser.DownloadImages("./nfts", 0, 9999, 100)
 
 	// maycParser := parser.NewErc721Parser(
 	// 	"0x60E4d786628Fea6478F785A6d7e704777c86a7c6",

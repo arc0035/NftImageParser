@@ -15,6 +15,7 @@ import (
 	"path/filepath"
 	"strings"
 	"sync"
+	"time"
 
 	//"sync"
 
@@ -144,10 +145,21 @@ func fetchReferenceHttp(url string, token int, downloadTo string) (string, error
 }
 
 func downloadIpfs(reference string, token int, fpath string) error {
-	err := remote.ReadToFile(reference, fpath)
-	if err != nil {
-		return err
+	attempts := 0
+	for {
+		err := remote.ReadToFile(reference, fpath)
+		if err == nil {
+			return nil
+		}
+		if attempts >= 5 {
+			return err
+		}
+		fmt.Println("retrying")
+		time.Sleep(2 * time.Second)
+		attempts++
+
 	}
+
 	fmt.Printf("%v saved \n", token)
 	return nil
 }

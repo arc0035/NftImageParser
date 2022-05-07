@@ -2,6 +2,8 @@ package remote
 
 import (
 	"encoding/json"
+	"errors"
+	"fmt"
 	"io"
 	"io/ioutil"
 	"net/http"
@@ -55,6 +57,10 @@ func toReader(path string) (io.Reader, error) {
 	path = path[len("ipfs://"):]
 	url := gateway + path
 	resp, err := http.Get(url)
+	if resp.StatusCode != 200 {
+		fmt.Println(resp.Status)
+		return nil, errors.New(resp.Status)
+	}
 	if err != nil {
 		return nil, err
 	}
